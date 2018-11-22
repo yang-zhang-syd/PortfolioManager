@@ -23,11 +23,14 @@ namespace PortfolioManager.Infrastructure.EntityConfigurations
             builder.Property<string>("Name").IsRequired();
             builder.Property<string>("Email").IsRequired();
 
-            var navigation = builder.Metadata.FindNavigation(nameof(Account.Transactions));
+            var transactionNavigation = builder.Metadata.FindNavigation(nameof(Account.Transactions));
 
             // DDD Patterns comment:
             //Set as field (New since EF 1.1) to access the OrderItem collection property through its field
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+            transactionNavigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            var holdingNavigation = builder.Metadata.FindNavigation(nameof(Account.StockHoldings));
+            holdingNavigation.SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

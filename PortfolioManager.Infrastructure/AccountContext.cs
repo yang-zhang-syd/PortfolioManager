@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PortfolioManager.Domain.AggregatesModel.AccountAggregate;
+using PortfolioManager.Domain.AggregatesModel.StockAggregate;
 using PortfolioManager.Domain.SeedWork;
 using PortfolioManager.Infrastructure.EntityConfigurations;
 
@@ -18,7 +19,10 @@ namespace PortfolioManager.Infrastructure
 
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<StockHolding> StockHoldings { get; set; }
         public DbSet<TransactionType> TransactionType { get; set; }
+        public DbSet<Stock> Stocks { get; set; }
+        public DbSet<StockPrice> StockPrices { get; set; }
 
         public AccountContext(DbContextOptions<AccountContext> options) : base(options)
         {
@@ -30,6 +34,9 @@ namespace PortfolioManager.Infrastructure
             modelBuilder.ApplyConfiguration(new AccountEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionTypeEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new StockEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new StockPriceEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new StockHoldingEntityTypeConfiguration());
         }
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))

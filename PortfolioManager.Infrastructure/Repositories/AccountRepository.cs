@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using PortfolioManager.Domain.AggregatesModel.AccountAggregate;
 using PortfolioManager.Domain.SeedWork;
 
@@ -20,6 +21,17 @@ namespace PortfolioManager.Infrastructure.Repositories
         public Account Add(Account account)
         {
             return _context.Accounts.Add(account).Entity;
+        }
+
+        public async Task<Account> GetAsync(int id)
+        {
+            var account = await _context.Accounts.FindAsync(id);
+            if (account != null)
+            {
+                await _context.Entry(account).Collection(i => i.Transactions).LoadAsync();
+            }
+
+            return account;
         }
     }
 }
