@@ -55,6 +55,7 @@ namespace PortfolioManager
                     ServiceLifetime.Scoped  //Showing explicitly that the DbContext is shared across the HTTP request scope (graph of objects started in the HTTP request)
                 );
 
+            services.AddCustomSwagger(Configuration);
 
             var container = new ContainerBuilder();
             container.Populate(services);
@@ -68,6 +69,12 @@ namespace PortfolioManager
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var pathBase = Configuration["PATH_BASE"];
+            if (!string.IsNullOrEmpty(pathBase))
+            {
+                app.UsePathBase(pathBase);
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -79,6 +86,34 @@ namespace PortfolioManager
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            app.UseSwagger()
+                .UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "PortfolioManager.API V1");
+                });
+        }
+
+    }
+
+    static class CustomExtensionMethods
+    {
+        public static IServiceCollection AddCustomSwagger(this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            services.AddSwaggerGen(options =>
+            {
+                options.DescribeAllEnumsAsStrings();
+                options.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
+                {
+                    Title = "Portfolio Manager HTTP API",
+                    Version = "v1",
+                    Description = "The Portfolio Management HTTP API",
+                    TermsOfService = "Terms Of Service"
+                });
+            });
+
+            return services;
         }
     }
 }
