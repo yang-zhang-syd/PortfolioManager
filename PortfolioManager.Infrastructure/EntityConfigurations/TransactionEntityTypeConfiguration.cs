@@ -19,16 +19,21 @@ namespace PortfolioManager.Infrastructure.EntityConfigurations
 
             builder.Property(o => o.Id)
                 .ForSqlServerUseSequenceHiLo("transactionseq");
-
-            builder.Property<string>("Symbol").IsRequired();
+            
             builder.Property<int>("Units").IsRequired();
             builder.Property<decimal>("Price").IsRequired();
+            builder.Property<decimal>("Commission").IsRequired();
             builder.Property<int>("TransactionTypeId").IsRequired();
+            builder.Property<int>("StockId").IsRequired();
             builder.Property<int>("AccountId").IsRequired();
 
             builder.HasOne(t => t.TransactionType)
                 .WithMany()
                 .HasForeignKey("TransactionTypeId");
+
+            builder.HasOne(t => t.Stock)
+                .WithMany()
+                .HasForeignKey("StockId");
         }
     }
 }

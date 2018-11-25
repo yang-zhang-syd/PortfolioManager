@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioManager.Domain.AggregatesModel.AccountAggregate;
+using PortfolioManager.Domain.AggregatesModel.StockAggregate;
 
 namespace PortfolioManager.Controllers
 {
@@ -12,10 +13,12 @@ namespace PortfolioManager.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly IStockRepository _stockRepository;
 
-        public ValuesController(IAccountRepository accountRepository)
+        public ValuesController(IAccountRepository accountRepository, IStockRepository stockRepository)
         {
             _accountRepository = accountRepository;
+            _stockRepository = stockRepository;
         }
 
         // GET api/values
@@ -38,9 +41,18 @@ namespace PortfolioManager.Controllers
         public async Task Post([FromBody] string value)
         {
             var account = new Account("Yang Zhang", "yang.zhang@icloud.com");
-            account.AddTransaction("GOOG", 100, 1020, TransactionType.Buy);
+
+            var stock = await _stockRepository.FindAsync("GOOG");
+            if (stock == null)
+            {
+                stock = new Stock("GOOG");
+                stock.AddStockPrice(1020, DateTime.Now);
+                _stockRepository.Add(stock);
+            }
+
+            account.AddTransaction(stock.Id, 100, 1020, TransactionType.Buy, 10, DateTime.Now);
             _accountRepository.Add(account);
-            await _accountRepository.UnitOfWork.SaveChangesAsync();
+            await _accountRepository.UnitOfWork.SaveEntitiesAsync();
         }
 
         // PUT api/values/5

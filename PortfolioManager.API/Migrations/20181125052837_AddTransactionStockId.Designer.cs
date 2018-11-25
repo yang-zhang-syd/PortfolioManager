@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PortfolioManager.Infrastructure;
 
 namespace PortfolioManager.API.Migrations
 {
     [DbContext(typeof(AccountContext))]
-    partial class AccountContextModelSnapshot : ModelSnapshot
+    [Migration("20181125052837_AddTransactionStockId")]
+    partial class AddTransactionStockId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,13 +82,14 @@ namespace PortfolioManager.API.Migrations
 
                     b.Property<int>("AccountId");
 
-                    b.Property<decimal>("Commission");
-
                     b.Property<DateTime>("DateTime");
 
                     b.Property<decimal>("Price");
 
-                    b.Property<int>("StockId");
+                    b.Property<int?>("StockId");
+
+                    b.Property<string>("Symbol")
+                        .IsRequired();
 
                     b.Property<int>("TransactionTypeId");
 
@@ -174,8 +177,7 @@ namespace PortfolioManager.API.Migrations
 
                     b.HasOne("PortfolioManager.Domain.AggregatesModel.StockAggregate.Stock", "Stock")
                         .WithMany()
-                        .HasForeignKey("StockId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("StockId");
 
                     b.HasOne("PortfolioManager.Domain.AggregatesModel.AccountAggregate.TransactionType", "TransactionType")
                         .WithMany()

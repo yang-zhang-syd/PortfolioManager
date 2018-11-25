@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using PortfolioManager.Domain.Events;
 using PortfolioManager.Domain.SeedWork;
 
 namespace PortfolioManager.Domain.AggregatesModel.AccountAggregate
@@ -29,10 +30,12 @@ namespace PortfolioManager.Domain.AggregatesModel.AccountAggregate
             Email = email;
         }
 
-        public void AddTransaction(string symbol, int units, decimal price, TransactionType type)
+        public void AddTransaction(int stockId, int units, decimal price, TransactionType type, decimal commission, DateTime dateTime)
         {
-            var transaction = new Transaction(Id, symbol, units, price, type);
+            var transaction = new Transaction(Id, stockId, units, price, type, commission, dateTime);
             _transactions.Add(transaction);
+
+            AddDomainEvent(new TransactionAddedDomainEvent(transaction));
         }
 
         //TODO: move this to event handler

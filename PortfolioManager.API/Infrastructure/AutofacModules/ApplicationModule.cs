@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
 using PortfolioManager.Domain.AggregatesModel.AccountAggregate;
+using PortfolioManager.Domain.AggregatesModel.StockAggregate;
 using PortfolioManager.Infrastructure.Repositories;
 
 namespace PortfolioManager.API.Infrastructure.AutofacModules
@@ -24,6 +25,9 @@ namespace PortfolioManager.API.Infrastructure.AutofacModules
                 .As<IAccountRepository>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<StockRepository>()
+                .As<IStockRepository>()
+                .InstancePerLifetimeScope();
         }
     }
 }

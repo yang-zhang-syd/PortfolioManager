@@ -9,6 +9,7 @@ namespace PortfolioManager.Domain.AggregatesModel.AccountAggregate
     public interface IAccountRepository : IRepository<Account>
     {
         Account Add(Account account);
+        StockHolding AddStockHolding(StockHolding stockHolding);
         Task<Account> GetAsync(int id);
     }
 }

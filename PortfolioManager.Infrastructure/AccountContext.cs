@@ -24,9 +24,9 @@ namespace PortfolioManager.Infrastructure
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<StockPrice> StockPrices { get; set; }
 
-        public AccountContext(DbContextOptions<AccountContext> options) : base(options)
+        public AccountContext(DbContextOptions<AccountContext> options, IMediator mediator) : base(options)
         {
-            //_mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,6 +41,7 @@ namespace PortfolioManager.Infrastructure
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
+            await _mediator.DispatchDomainEventsAsync(this);
             var result = await base.SaveChangesAsync();
 
             return true;

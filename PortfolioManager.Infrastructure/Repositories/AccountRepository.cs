@@ -23,6 +23,11 @@ namespace PortfolioManager.Infrastructure.Repositories
             return _context.Accounts.Add(account).Entity;
         }
 
+        public StockHolding AddStockHolding(StockHolding stockHolding)
+        {
+            return _context.StockHoldings.Add(stockHolding).Entity;
+        }
+
         public async Task<Account> GetAsync(int id)
         {
             var account = await _context.Accounts.FindAsync(id);

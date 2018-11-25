@@ -5,7 +5,7 @@ using PortfolioManager.Domain.SeedWork;
 
 namespace PortfolioManager.Domain.AggregatesModel.StockAggregate
 {
-    public class Stock : Entity
+    public class Stock : Entity, IAggregateRoot
     {
         private readonly List<StockPrice> _equityPrices;
         public IReadOnlyCollection<StockPrice> EquityPrices => _equityPrices;
