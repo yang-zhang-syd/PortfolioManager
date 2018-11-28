@@ -7,12 +7,12 @@ namespace PortfolioManager.Domain.AggregatesModel.StockAggregate
 {
     public class Stock : Entity, IAggregateRoot
     {
-        private readonly List<StockPrice> _equityPrices;
-        public IReadOnlyCollection<StockPrice> EquityPrices => _equityPrices;
+        private readonly List<StockPrice> _stockPrices;
+        public IReadOnlyCollection<StockPrice> StockPrices => _stockPrices;
 
         protected Stock()
         {
-            _equityPrices = new List<StockPrice>();
+            _stockPrices = new List<StockPrice>();
         }
 
         public Stock(string symbol) : this()
@@ -25,7 +25,7 @@ namespace PortfolioManager.Domain.AggregatesModel.StockAggregate
         public void AddStockPrice(decimal price, DateTime dateTime)
         {
             var equityPrice = new StockPrice(Id, price, dateTime);
-            _equityPrices.Add(equityPrice);
+            _stockPrices.Add(equityPrice);
         }
     }
 }

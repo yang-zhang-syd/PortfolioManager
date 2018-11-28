@@ -1,0 +1,229 @@
+swagger: '2.0'
+info:
+  version: v1
+  title: Portfolio Manager HTTP API
+  description: The Portfolio Management HTTP API
+  termsOfService: Terms Of Service
+paths:
+  /account:
+    post:
+      tags:
+      - account
+      summary: Create a new account
+      operationId: createAccount
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters: 
+      - in: body
+        name: account
+        description: Account object to be created
+        required: true
+        schema:
+          $ref: '#/definitions/Account'
+      responses:
+        405:
+          description: Invalid input
+    put:
+      tags:
+      - account
+      summary: Update an existing account
+      operationId: updateAccount
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: body
+        description: Account object that needs to be updated
+        required: true
+        schema:
+          $ref: '#/definitions/Account'
+      responses:
+        400:
+          description: Invalid ID supplied
+        404:
+          description: Account not found
+        405:
+          description: Validation exception
+  /account/{accountId}:
+    get:
+      tags:
+      - account
+      summary: Find account by ID
+      description: Returns a single account
+      operationId: getAccountById
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: accountId
+        in: path
+        description: ID of account to return
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Account'
+        400:
+          description: Invalid ID supplied
+        404:
+          description: Account not found    
+    delete:
+      tags:
+      - account
+      summary: Deletes a account
+      operationId: deleteAccount
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: accountId
+        in: path
+        description: Account id to delete
+        required: true
+        type: integer
+        format: int64
+      responses:
+        400:
+          description: Invalid ID supplied
+        404:
+          description: Account not found          
+definitions:
+  Account:
+    type: object
+    properties:
+      name:
+        type: string
+        readOnly: true
+      email:
+        type: string
+        readOnly: true
+      transactions:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/Transaction'
+        readOnly: true
+      stockHoldings:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/StockHolding'
+        readOnly: true
+      id:
+        format: int32
+        type: integer
+        readOnly: true
+  Stock:
+    type: object
+    properties:
+      symbol:
+        type: string
+        readOnly: true
+      stockPrices:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/StockPrice'
+        readOnly: true
+  Transaction:
+    type: object
+    properties:
+      stock:
+        $ref: '#/definitions/Stock'
+      units:
+        format: int32
+        type: integer
+        readOnly: true
+      price:
+        format: double
+        type: number
+        readOnly: true
+      commission:
+        format: double
+        type: number
+        readOnly: true
+      dateTime:
+        format: date-time
+        type: string
+        readOnly: true
+      transactionType:
+        $ref: '#/definitions/TransactionType'
+      accountId:
+        format: int32
+        type: integer
+        readOnly: true
+      id:
+        format: int32
+        type: integer
+        readOnly: true
+  StockHolding:
+    type: object
+    properties:
+      stockId:
+        format: int32
+        type: integer
+        readOnly: true
+      accountId:
+        format: int32
+        type: integer
+        readOnly: true
+      units:
+        format: int32
+        type: integer
+        readOnly: true
+      boughtPrice:
+        format: double
+        type: number
+        readOnly: true
+      commission:
+        format: double
+        type: number
+        readOnly: true
+      boughtDateTime:
+        format: date-time
+        type: string
+        readOnly: true
+      id:
+        format: int32
+        type: integer
+        readOnly: true
+  TransactionType:
+    type: object
+    properties:
+      name:
+        type: string
+        readOnly: true
+      id:
+        format: int32
+        type: integer
+        readOnly: true
+  StockPrice:
+    type: object
+    properties:
+      stockId:
+        format: int32
+        type: integer
+        readOnly: true
+      price:
+        format: double
+        type: number
+        readOnly: true
+      dateTime:
+        format: date-time
+        type: string
+        readOnly: true
+      id:
+        format: int32
+        type: integer
+        readOnly: true

@@ -186,7 +186,7 @@ namespace PortfolioManager.API.Migrations
             modelBuilder.Entity("PortfolioManager.Domain.AggregatesModel.StockAggregate.StockPrice", b =>
                 {
                     b.HasOne("PortfolioManager.Domain.AggregatesModel.StockAggregate.Stock")
-                        .WithMany("EquityPrices")
+                        .WithMany("StockPrices")
                         .HasForeignKey("StockId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

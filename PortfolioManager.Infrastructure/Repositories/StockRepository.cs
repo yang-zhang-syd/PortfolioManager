@@ -28,7 +28,7 @@ namespace PortfolioManager.Infrastructure.Repositories
         public async Task<Stock> GetAsync(int id)
         {
             var stock = await _context.Stocks
-                .Include(s => s.EquityPrices)
+                .Include(s => s.StockPrices)
                 .Where(s => s.Id == id)
                 .SingleOrDefaultAsync();
 
@@ -38,7 +38,7 @@ namespace PortfolioManager.Infrastructure.Repositories
         public async Task<Stock> FindAsync(string symbol)
         {
             var stock = await _context.Stocks
-                .Include(s => s.EquityPrices)
+                .Include(s => s.StockPrices)
                 .Where(s => s.Symbol == symbol)
                 .SingleOrDefaultAsync();
 
