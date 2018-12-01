@@ -32,6 +32,7 @@ namespace PortfolioManager.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AccountEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new AccountStatusTypeEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionTypeEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StockEntityTypeConfiguration());

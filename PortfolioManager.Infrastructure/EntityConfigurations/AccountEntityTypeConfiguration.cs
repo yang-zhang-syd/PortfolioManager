@@ -22,6 +22,11 @@ namespace PortfolioManager.Infrastructure.EntityConfigurations
 
             builder.Property<string>("Name").IsRequired();
             builder.Property<string>("Email").IsRequired();
+            builder.Property<int>("StatusId").IsRequired().HasDefaultValue(AccountStatus.Created.Id);
+
+            builder.HasOne(t => t.Status)
+                .WithMany()
+                .HasForeignKey("StatusId");
 
             var transactionNavigation = builder.Metadata.FindNavigation(nameof(Account.Transactions));
 

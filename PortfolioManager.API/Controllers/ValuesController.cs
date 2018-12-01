@@ -40,7 +40,7 @@ namespace PortfolioManager.Controllers
         [HttpPost]
         public async Task Post([FromBody] string value)
         {
-            var account = new Account("Yang Zhang", "yang.zhang@icloud.com");
+            var account = new Account("Yang Zhang", "yang.zhang@icloud.com", AccountStatus.Created);
 
             var stock = await _stockRepository.FindAsync("GOOG");
             if (stock == null)

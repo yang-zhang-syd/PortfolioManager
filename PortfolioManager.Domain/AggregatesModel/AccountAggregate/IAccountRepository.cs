@@ -11,5 +11,7 @@ namespace PortfolioManager.Domain.AggregatesModel.AccountAggregate
         Account Add(Account account);
         StockHolding AddStockHolding(StockHolding stockHolding);
         Task<Account> GetAsync(int id);
+        Task<bool> DeleteAsync(int id);
+        Task<bool> UpdateAsync(Account account);
     }
 }
