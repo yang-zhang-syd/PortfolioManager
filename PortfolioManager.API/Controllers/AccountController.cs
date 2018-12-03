@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using PortfolioManager.API.Attributes;
 using PortfolioManager.API.Models;
 using PortfolioManager.Domain.AggregatesModel.AccountAggregate;
+using PortfolioManager.Domain.AggregatesModel.StockAggregate;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PortfolioManager.API.Controllers
@@ -16,10 +17,12 @@ namespace PortfolioManager.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly IStockRepository _stockRepository;
 
-        public AccountController(IAccountRepository accountRepository)
+        public AccountController(IAccountRepository accountRepository, IStockRepository stockRepository)
         {
             _accountRepository = accountRepository;
+            _stockRepository = stockRepository;
         }
 
         /// <summary>
@@ -53,7 +56,7 @@ namespace PortfolioManager.API.Controllers
             var account = await _accountRepository.GetAsync(accountId);
             if (account == null)
             {
-                return NotFound();
+                return NotFound($"Account {accountId} not found.");
             }
 
             var result = await _accountRepository.DeleteAsync(accountId);
@@ -80,7 +83,7 @@ namespace PortfolioManager.API.Controllers
             var account = await _accountRepository.GetAsync(accountId);
             if (account == null)
             {
-                return NotFound();
+                return NotFound($"Account {accountId} not found.");
             }
 
             return new ObjectResult(account);
@@ -103,7 +106,7 @@ namespace PortfolioManager.API.Controllers
             var account = await _accountRepository.GetAsync(accountId);
             if (account == null)
             {
-                return NotFound();
+                return NotFound($"Account {accountId} not found.");
             }
 
             account.Name = body.Name;
@@ -131,13 +134,44 @@ namespace PortfolioManager.API.Controllers
             var account = await _accountRepository.GetAsync(accountId);
             if (account == null)
             {
-                return NotFound();
+                return NotFound($"Account {accountId} not found.");
             }
 
             patchData.ApplyTo(account);
             await _accountRepository.UpdateAsync(account);
             await _accountRepository.UnitOfWork.SaveEntitiesAsync();
             return Ok();
+        }
+
+        /// <summary>
+        /// Add a transaction to account.
+        /// </summary>
+        /// <param name="accountId">account id</param>
+        /// <param name="stockId">stock id</param>
+        /// <param name="model">transaction data</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("{accountId}/stock/{stockId}")]
+        [ValidateModelState]
+        [SwaggerOperation("AddAccountTransaction")]
+        public async Task<IActionResult> AddTransaction(int accountId, int stockId, [FromBody] TransactionAddModel model)
+        {
+            var account = await _accountRepository.GetAsync(accountId);
+            if (account == null)
+            {
+                return NotFound($"Account {accountId} not found.");
+            }
+
+            var stock = await _stockRepository.GetAsync(stockId);
+            if(stock == null)
+            {
+                return NotFound($"Stock {stockId} not found.");
+            }
+
+            account.AddTransaction(stockId, model.Units, model.Price, model.Type, model.Commission, model.DateTime);
+            var result = await _accountRepository.UnitOfWork.SaveEntitiesAsync();
+
+            return Ok(result);
         }
     }
 }
