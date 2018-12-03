@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PortfolioManager.API.Attributes;
@@ -108,6 +109,32 @@ namespace PortfolioManager.API.Controllers
             account.Name = body.Name;
             account.Email = body.Email;
 
+            await _accountRepository.UpdateAsync(account);
+            await _accountRepository.UnitOfWork.SaveEntitiesAsync();
+            return Ok();
+        }
+
+        /// <summary>
+        /// Patch an existing account
+        /// </summary>
+        /// /// <param name="accountId">Id of account</param>
+        /// <param name="patchData">Account object that needs to be updated</param>
+        /// <response code="400">Invalid ID supplied</response>
+        /// <response code="404">Account not found</response>
+        /// <response code="405">Validation exception</response>
+        [HttpPatch]
+        [Route("{accountId}")]
+        [ValidateModelState]
+        [SwaggerOperation("PatchAccount")]
+        public async Task<IActionResult> PatchAccount(int accountId, [FromBody] JsonPatchDocument patchData)
+        {
+            var account = await _accountRepository.GetAsync(accountId);
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            patchData.ApplyTo(account);
             await _accountRepository.UpdateAsync(account);
             await _accountRepository.UnitOfWork.SaveEntitiesAsync();
             return Ok();
