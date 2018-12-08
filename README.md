@@ -1,5 +1,5 @@
 # PortfolioManager
 
-Manage your share trading portfolio.
+APIs to help manage your share trading portfolio.
 
 _Project under development. Comming soon..._
