@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  portfoliomanager.api:
+    image: pm.api:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: PortfolioManager.API/Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=${DB_CONNECTION_STRING}
+      - ASPNETCORE_HTTPS_PORT=${ASPNETCORE_HTTPS_PORT}
+      - ASPNETCORE_URLS=http://*:80
