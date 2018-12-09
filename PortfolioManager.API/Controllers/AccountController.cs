@@ -51,7 +51,7 @@ namespace PortfolioManager.API.Controllers
         [Route("{accountId}")]
         [ValidateModelState]
         [SwaggerOperation("DeleteAccount")]
-        public async Task<IActionResult> DeleteAccount([FromRoute][Required]int accountId)
+        public async Task<IActionResult> DeleteAccount([Required]int accountId)
         {
             var account = await _accountRepository.GetAsync(accountId);
             if (account == null)
@@ -77,7 +77,7 @@ namespace PortfolioManager.API.Controllers
         [ValidateModelState]
         [SwaggerOperation("GetAccountById")]
         [SwaggerResponse(statusCode: 200, type: typeof(Account), description: "successful operation")]
-        public async Task<IActionResult> GetAccountById([FromRoute][Required]int accountId)
+        public async Task<IActionResult> GetAccountById([Required]int accountId)
         {
 
             var account = await _accountRepository.GetAsync(accountId);
@@ -86,7 +86,7 @@ namespace PortfolioManager.API.Controllers
                 return NotFound($"Account {accountId} not found.");
             }
 
-            return new ObjectResult(account);
+            return Ok(account);
         }
 
         /// <summary>

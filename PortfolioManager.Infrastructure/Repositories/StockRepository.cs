@@ -35,6 +35,31 @@ namespace PortfolioManager.Infrastructure.Repositories
             return stock;
         }
 
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var stock = await _context.Stocks.SingleOrDefaultAsync(s => s.Id == id);
+            if (stock == null)
+            {
+                return false;
+            }
+
+            _context.Stocks.Remove(stock);
+            return true;
+        }
+
+        public async Task<bool> UpdateAsync(Stock stock)
+        {
+            var stockToUpdate = await _context.Stocks.SingleOrDefaultAsync(s => s.Id == stock.Id);
+            if (stockToUpdate == null)
+            {
+                return false;
+            }
+
+            stockToUpdate.Symbol = stock.Symbol;
+
+            return true;
+        }
+
         public async Task<Stock> FindAsync(string symbol)
         {
             var stock = await _context.Stocks

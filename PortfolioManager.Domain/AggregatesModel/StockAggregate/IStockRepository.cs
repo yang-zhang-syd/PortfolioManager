@@ -10,5 +10,8 @@ namespace PortfolioManager.Domain.AggregatesModel.StockAggregate
         Task<Stock> FindAsync(string symbol);
 
         Task<Stock> GetAsync(int id);
+
+        Task<bool> DeleteAsync(int id);
+        Task<bool> UpdateAsync(Stock stock);
     }
 }

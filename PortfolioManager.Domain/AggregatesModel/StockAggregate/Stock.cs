@@ -20,7 +20,7 @@ namespace PortfolioManager.Domain.AggregatesModel.StockAggregate
             Symbol = symbol;
         }
 
-        public string Symbol { get; private set; }
+        public string Symbol { get; set; }
 
         public void AddStockPrice(decimal price, DateTime dateTime)
         {
