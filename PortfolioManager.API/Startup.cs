@@ -83,7 +83,9 @@ namespace PortfolioManager
             {
                 app.UseHsts();
             }
-            
+
+            app.UseCors("CorsPolicy");
+
             app.UseMvc();
 
             app.UseSwagger()
