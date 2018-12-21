@@ -31,11 +31,17 @@ namespace PortfolioManager.API.Controllers
         [HttpPost]
         [ValidateModelState]
         [SwaggerOperation("CreateStock")]
-        public async Task<Stock> CreateStock([FromBody] StockModel data)
+        public async Task<IActionResult> CreateStock([FromBody] StockModel data)
         {
+            var existing = await _stockRepository.FindAsync(data.Symbol);
+            if (existing != null)
+            {
+                return Conflict($"Stock {data.Symbol} already exists");
+            }
+
             var stock = _stockRepository.Add(new Stock(data.Symbol));
             await _stockRepository.UnitOfWork.SaveEntitiesAsync();
-            return stock;
+            return Ok(stock);
         }
 
         /// <summary>
