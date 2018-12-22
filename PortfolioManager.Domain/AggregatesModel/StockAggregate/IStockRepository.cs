@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using PortfolioManager.Domain.SeedWork;
 
 namespace PortfolioManager.Domain.AggregatesModel.StockAggregate
@@ -12,6 +13,9 @@ namespace PortfolioManager.Domain.AggregatesModel.StockAggregate
         Task<Stock> GetAsync(int id);
 
         Task<bool> DeleteAsync(int id);
+
         Task<bool> UpdateAsync(Stock stock);
+
+        Task<List<Stock>> GetStocks(int pageSize, int pageNum);
     }
 }

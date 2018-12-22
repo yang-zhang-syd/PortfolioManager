@@ -89,6 +89,14 @@ namespace PortfolioManager.API.Controllers
             return Ok(stock);
         }
 
+        [HttpPost]
+        [Route("stocks/page/{pageNum}")]
+        public async Task<IActionResult> GetStocks([Required] int pageNum, [FromBody] GetStocksModel options)
+        {
+            var stocks = await _stockRepository.GetStocks(options.PageSize, pageNum);
+            return Ok(stocks);
+        }
+
         /// <summary>
         /// Update an existing stock record.
         /// </summary>

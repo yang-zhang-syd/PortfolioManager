@@ -60,6 +60,15 @@ namespace PortfolioManager.Infrastructure.Repositories
             return true;
         }
 
+        public async Task<List<Stock>> GetStocks(int pageSize, int pageNum)
+        {
+            return await _context.Stocks
+                .OrderBy(s => s.Id)
+                .Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
         public async Task<Stock> FindAsync(string symbol)
         {
             var stock = await _context.Stocks
