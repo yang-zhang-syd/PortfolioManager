@@ -91,6 +91,8 @@ namespace PortfolioManager.API.Controllers
 
         [HttpPost]
         [Route("stocks/page/{pageNum}")]
+        [ValidateModelState]
+        [SwaggerOperation("GetStocks")]
         public async Task<IActionResult> GetStocks([Required] int pageNum, [FromBody] GetStocksModel options)
         {
             var stocks = await _stockRepository.GetStocks(options.PageSize, pageNum);
