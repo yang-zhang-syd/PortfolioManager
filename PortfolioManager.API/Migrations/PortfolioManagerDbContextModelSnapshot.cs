@@ -8,8 +8,8 @@ using PortfolioManager.Infrastructure;
 
 namespace PortfolioManager.API.Migrations
 {
-    [DbContext(typeof(AccountContext))]
-    partial class AccountContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(PortfolioManagerDbContext))]
+    partial class PortfolioManagerDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

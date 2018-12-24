@@ -8,7 +8,7 @@ namespace PortfolioManager.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<TransactionType> builder)
         {
-            builder.ToTable("transactiontype", AccountContext.DEFAULT_SCHEMA);
+            builder.ToTable("transactiontype", PortfolioManagerDbContext.DEFAULT_SCHEMA);
 
             builder.HasKey(t => t.Id);
 

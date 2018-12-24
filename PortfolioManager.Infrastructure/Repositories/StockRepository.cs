@@ -11,11 +11,11 @@ namespace PortfolioManager.Infrastructure.Repositories
 {
     public class StockRepository : IStockRepository
     {
-        private readonly AccountContext _context;
+        private readonly PortfolioManagerDbContext _context;
 
         public IUnitOfWork UnitOfWork => _context;
 
-        public StockRepository(AccountContext context)
+        public StockRepository(PortfolioManagerDbContext context)
         {
             _context = context;
         }

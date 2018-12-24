@@ -11,14 +11,14 @@ namespace PortfolioManager.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Account> builder)
         {
-            builder.ToTable("accounts", AccountContext.DEFAULT_SCHEMA);
+            builder.ToTable("accounts", PortfolioManagerDbContext.DEFAULT_SCHEMA);
 
             builder.HasKey(a => a.Id);
 
             builder.Ignore(a => a.DomainEvents);
 
             builder.Property(o => o.Id)
-                .ForSqlServerUseSequenceHiLo("accountseq", AccountContext.DEFAULT_SCHEMA);
+                .ForSqlServerUseSequenceHiLo("accountseq", PortfolioManagerDbContext.DEFAULT_SCHEMA);
 
             builder.Property<string>("Name").IsRequired();
             builder.Property<string>("Email").IsRequired();

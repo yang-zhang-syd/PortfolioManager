@@ -8,7 +8,7 @@ using PortfolioManager.Infrastructure;
 
 namespace PortfolioManager.API.Migrations
 {
-    [DbContext(typeof(AccountContext))]
+    [DbContext(typeof(PortfolioManagerDbContext))]
     [Migration("20181117221846_Initial")]
     partial class Initial
     {

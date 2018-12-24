@@ -24,7 +24,7 @@ namespace PortfolioManager
         {
             CreateWebHostBuilder(args)
                 .Build()
-                .MigrateDbContext<AccountContext>((context, services) =>
+                .MigrateDbContext<PortfolioManagerDbContext>((context, services) =>
                     {
                         new AccountContextSeed().SeedAsync(context, null, null, null)
                             .Wait();

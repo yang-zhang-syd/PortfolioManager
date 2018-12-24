@@ -12,7 +12,7 @@ using PortfolioManager.Infrastructure.EntityConfigurations;
 
 namespace PortfolioManager.Infrastructure
 {
-    public class AccountContext: DbContext, IUnitOfWork
+    public class PortfolioManagerDbContext: DbContext, IUnitOfWork
     {
         public const string DEFAULT_SCHEMA = "portfoliomanager";
         private readonly IMediator _mediator;
@@ -24,7 +24,7 @@ namespace PortfolioManager.Infrastructure
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<StockPrice> StockPrices { get; set; }
 
-        public AccountContext(DbContextOptions<AccountContext> options, IMediator mediator) : base(options)
+        public PortfolioManagerDbContext(DbContextOptions<PortfolioManagerDbContext> options, IMediator mediator) : base(options)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }

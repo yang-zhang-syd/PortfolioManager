@@ -9,7 +9,7 @@ using PortfolioManager.Infrastructure;
 
 namespace PortfolioManager.API.Migrations
 {
-    [DbContext(typeof(AccountContext))]
+    [DbContext(typeof(PortfolioManagerDbContext))]
     [Migration("20181125054111_TransactionStockIdNotNull")]
     partial class TransactionStockIdNotNull
     {

@@ -11,9 +11,9 @@ namespace PortfolioManager.Infrastructure.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
-        private readonly AccountContext _context;
+        private readonly PortfolioManagerDbContext _context;
 
-        public AccountRepository(AccountContext context)
+        public AccountRepository(PortfolioManagerDbContext context)
         {
             _context = context;
         }

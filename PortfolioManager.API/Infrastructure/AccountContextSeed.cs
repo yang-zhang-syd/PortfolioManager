@@ -14,7 +14,7 @@ namespace PortfolioManager.API.Infrastructure
 {
     public class AccountContextSeed
     {
-        public async Task SeedAsync(AccountContext context, IHostingEnvironment env, IOptions<AccountSettings> settings, ILogger<AccountContextSeed> logger)
+        public async Task SeedAsync(PortfolioManagerDbContext context, IHostingEnvironment env, IOptions<AccountSettings> settings, ILogger<AccountContextSeed> logger)
         {
             var policy = CreatePolicy(logger, nameof(AccountContextSeed));
 

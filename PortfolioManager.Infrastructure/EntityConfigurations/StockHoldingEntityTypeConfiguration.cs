@@ -12,7 +12,7 @@ namespace PortfolioManager.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<StockHolding> builder)
         {
-            builder.ToTable("stockholdings", AccountContext.DEFAULT_SCHEMA);
+            builder.ToTable("stockholdings", PortfolioManagerDbContext.DEFAULT_SCHEMA);
 
             builder.HasKey(s => s.Id);
 

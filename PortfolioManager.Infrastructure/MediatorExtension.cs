@@ -7,7 +7,7 @@ namespace PortfolioManager.Infrastructure
 {
     static class MediatorExtension
     {
-        public static async Task DispatchDomainEventsAsync(this IMediator mediator, AccountContext ctx)
+        public static async Task DispatchDomainEventsAsync(this IMediator mediator, PortfolioManagerDbContext ctx)
         {
             var domainEntities = ctx.ChangeTracker
                 .Entries<Entity>()

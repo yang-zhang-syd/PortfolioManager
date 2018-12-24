@@ -43,7 +43,7 @@ namespace PortfolioManager
             });
 
             services.AddEntityFrameworkSqlServer()
-                .AddDbContext<AccountContext>(options =>
+                .AddDbContext<PortfolioManagerDbContext>(options =>
                     {
                         options.UseSqlServer(Configuration["ConnectionString"],
                             sqlServerOptionsAction: sqlOptions =>
